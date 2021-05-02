@@ -13,7 +13,7 @@ TIMERS:		ORG $4000
 
 CURRENT_TIME			DS.L	1	; Time base for the program since midnight
 	
-KEYBOARD_TIMER_TIMEOUT	EQU		5	; Period which the flag will be activated in [10ms]
+KEYBOARD_TIMER_TIMEOUT	EQU		7	; Period which the flag will be activated in [10ms]
 KEYBOARD_TIMER_REF		DS.L	1	; Timer time base reference since midnight
 KEYBOARD_TIMER_FLAG		DS.L	1	; Flag that indicates if timeout has past
 
@@ -73,6 +73,7 @@ SET_SCREEN_TIMER_FLAG
 SET_KEYBOARD_TIMER_FLAG
 	MOVE.L #1, KEYBOARD_TIMER_FLAG
 	RTS
+
 RESET_SCREEN_TIMER_FLAG
 	MOVE.L #0, SCREEN_TIMER_FLAG
 	RTS
