@@ -23,11 +23,44 @@ READ_KEYBOARD_SUBROUTINE
 
 	JSR UPDATE_KEYBOARD_TIMER	; Compute time that has past and update timer flag if needed
 	
-	IF.B  KEYBOARD_TIMER_FLAG <EQ> #1 THEN.S
+	IF.L  KEYBOARD_TIMER_FLAG <EQ> #1 THEN.S
 	
 		JSR INIT_KEYBOARD_INPUT_HANDLER		; Clear all flags
-	
+		
+		
+		JSR READ_KEYBOARD					; Read in any interrupt has been detected
+		
+		; JSR DEACTIVATE_KEYBOARD_INTERRUPTS	; 
+		
 	ENDI
+	RTS
+	
+READ_KEYBOARD
+
+	MOVE.B #19, D0								; Move task 19 (return current state of keys) to D0
+	MOVE.L #'A'<<24+'S'<<16+'D'<<8+'W', D1		; Check for keys A S D W
+	TRAP #15
+
+	BTST.L #24, D1	; Check if A has been pressed 
+	IF <NE> THEN	
+		JSR SET_LEFT_MOVEMENT_FLAG
+	ENDI
+	
+	BTST.L #16, D1	; Check if S has been pressed
+	IF <NE> THEN
+		JSR SET_DOWN_MOVEMENT_FLAG
+	ENDI
+
+	BTST.L #8, D1	; Check if D has been pressed
+	IF <NE> THEN
+		JSR SET_RIGHT_MOVEMENT_FLAG
+	ENDI
+	
+	BTST.L #0, D1	; Check if W has been pressed
+	IF <NE> THEN
+		JSR SET_UP_MOVEMENT_FLAG
+	ENDI
+	
 	RTS
 
 * ===== SETTERS AND RESETS FOR FLAGS ===== *	
@@ -71,6 +104,7 @@ INIT_KEYBOARD_INPUT_HANDLER
 	JSR RESET_RIGHT_MOVEMENT_FLAG
 	
 	RTS
+
 
 
 
