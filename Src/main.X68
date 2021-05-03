@@ -40,10 +40,11 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 		
 	 
 	* ===== INCLUDES ===== *
-
-	INCLUDE "./TimerManager/Timers.x68"
-	INCLUDE "./KeyboardInputHandler/KeyboardInputHandler.x68"
-	INCLUDE "./Commons.x68"
+ 
+	 INCLUDE "./TimerManager/Timers.x68"
+	 INCLUDE "./KeyboardInputHandler/KeyboardInputHandler.x68"
+	; INCLUDE "./Commons.x68"
+	INCLUDE "./GameController.x68"
 	
 
 
