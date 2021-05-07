@@ -179,8 +179,8 @@ WRITE_BOX_MEM
 	RTS
 
 MOVE_BOX_RIGHT
-	MOVE.B BOX_TO_OPERATE, D2
-	MULU   #4, D2
+	MOVE.B BOX_TO_OPERATE, D2	
+	MULU   #4, D2				; Compute offset for selecting box in array
 	
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0
 	
@@ -192,7 +192,7 @@ MOVE_BOX_RIGHT
 	
 MOVE_BOX_LEFT
 	MOVE.B BOX_TO_OPERATE, D2
-	MULU   #4, D2
+	MULU   #4, D2				; Compute offset for selecting box in array
 	
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0
 	
@@ -203,7 +203,7 @@ MOVE_BOX_LEFT
 	
 MOVE_BOX_UP
 	MOVE.B BOX_TO_OPERATE, D2
-	MULU   #4, D2
+	MULU   #4, D2				; Compute offset for selecting box in array
 	
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A0
 	
@@ -214,8 +214,8 @@ MOVE_BOX_UP
 	
 MOVE_BOX_DOWN
 	MOVE.B BOX_TO_OPERATE, D2
-	MULU   #4, D2
-	
+	MULU   #4, D2				; Compute offset for selecting box in array
+
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A0
 	
 	ADD.L D2, A0
@@ -243,7 +243,6 @@ PRINT_CHECKPOINTS
 	ENDF
 	
 	RTS
-
 
 UPLOAD_MAP
 
