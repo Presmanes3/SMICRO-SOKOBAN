@@ -23,6 +23,8 @@ MAIN:	ORG $1000
 SETUP	; This function will be called at starup of the program
 	JSR INIT_TIMERS
 	JSR INIT_KEYBOARD_INPUT_HANDLER	
+	
+	JSR UPLOAD_MAP
 		
 	RTS
 	
