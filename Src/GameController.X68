@@ -16,9 +16,10 @@ GAME_CONTROLLER:
 PLAYER_CURRENT_X	DS.L 1				; Current X coordinate of player
 PLAYER_CURRENT_Y	DS.L 1				; Current Y coordinate of player
 
-BOX_CURRENT_X_ARRAY	DS.L 2	; Array that indicates current X coordinate of boxes
-BOX_CURRENT_Y_ARRAY	DS.L 2	; Array that indicates current Y coordinate of boxes
+MAX_GAME_BOXES		EQU	 10
 
+BOX_CURRENT_X_ARRAY	DS.L MAX_GAME_BOXES	; Array that indicates current X coordinate of boxes
+BOX_CURRENT_Y_ARRAY	DS.L MAX_GAME_BOXES ; Array that indicates current Y coordinate of boxes
 
 * ===== GAME SYMBOLS ===== *
 BLANK_CHAR			EQU ' '
