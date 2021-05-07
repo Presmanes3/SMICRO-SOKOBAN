@@ -90,6 +90,45 @@ MOVE_PLAYER_DOWN
 	ADD.L #1, PLAYER_CURRENT_Y
 	RTS
 	
+UPLOAD_MAP
+
+	* ----- UPLOAD BOXES ----- *
+	MOVE.L #TOTAL_BOXES, D0
+	SUB.B #1, D0
+	
+	MOVE.L #BOX_START_X_ARRAY, A0
+	MOVE.L #BOX_START_Y_ARRAY, A1
+	MOVE.L #BOX_CURRENT_X_ARRAY, A2
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A3
+	
+	FOR.L D1 = #0 TO D0 DO.S
+								; Copy array for coordinates
+		MOVE.L (A0)+, (A2)
+		ADD.L #4, A2
+		
+		MOVE.L (A1)+, (A3)
+		ADD.L #4, A3
+		
+	ENDF
+	
+	MOVE.L #0, D0
+	MOVE.L #0, A0
+	MOVE.L #0, A1
+	MOVE.L #0, A2
+	MOVE.L #0, A3
+	
+	* ----- UPLOAD PLAYER ----- *
+	MOVE.L #PLAYER_START_X, PLAYER_CURRENT_X
+	MOVE.L #PLAYER_START_Y, PLAYER_CURRENT_Y
+	
+	RTS
+
+	INCLUDE "./GameController/Maps/TestingMap.x68"
+
+
+
+
+
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 
 
