@@ -92,6 +92,99 @@ MOVE_PLAYER_DOWN
 	ADD.L #1, PLAYER_CURRENT_Y
 	RTS
 	
+* ===== BOX MOVEMENTS ===== *
+* Delete box selected by index saved at D2
+DELETE_BOX_MEM
+
+	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
+	MOVE.B BOX_TO_OPERATE, D2
+	
+	MULU   #4, D2
+	
+	ADD.L  D2, A0						; Get box Address by index saved at D2
+	ADD.L  D2, A1						; Get box Address by index saved at D2
+	
+	MOVE.L (A0), D0
+	MOVE.L (A1), D1
+	
+	JSR GET_MAP_ADDRESS					; Compute box current memory address
+	
+	MOVE.L D2, A0						; Move result to A0
+	
+	MOVE.B #BLANK_CHAR, (A0)			; Move blank char to pointer pointe by A0
+	
+	RTS
+
+* Write player icon in current X,Y coordinates
+WRITE_BOX_MEM
+	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
+	MOVE.B BOX_TO_OPERATE, D2
+	
+	MULU   #4, D2
+	
+	ADD.L  D2, A0						; Get box Address by index saved at D2
+	ADD.L  D2, A1						; Get box Address by index saved at D2
+	
+	MOVE.L (A0), D0
+	MOVE.L (A1), D1
+	
+	JSR GET_MAP_ADDRESS					; Compute box current memory address
+	
+	MOVE.L D2, A0						; Move result to A0
+	
+	MOVE.B #BOX_CHAR, (A0)			; Move box char to pointer pointe by A0
+
+	RTS
+
+MOVE_BOX_RIGHT
+	MOVE.B BOX_TO_OPERATE, D2
+	MULU   #4, D2
+	
+	MOVE.L #BOX_CURRENT_X_ARRAY, A0
+	
+	ADD.L D2, A0
+	
+	ADD.L #1, (A0)
+
+	RTS
+	
+MOVE_BOX_LEFT
+	MOVE.B BOX_TO_OPERATE, D2
+	MULU   #4, D2
+	
+	MOVE.L #BOX_CURRENT_X_ARRAY, A0
+	
+	ADD.L D2, A0
+	
+	SUB.L #1, (A0)
+	RTS
+	
+MOVE_BOX_UP
+	MOVE.B BOX_TO_OPERATE, D2
+	MULU   #4, D2
+	
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A0
+	
+	ADD.L D2, A0
+	
+	SUB.L #1, (A0)
+	RTS
+	
+MOVE_BOX_DOWN
+	MOVE.B BOX_TO_OPERATE, D2
+	MULU   #4, D2
+	
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A0
+	
+	ADD.L D2, A0
+	
+	ADD.L #1, (A0)
+	RTS
+	
+
+
 UPLOAD_MAP
 
 	* ----- UPLOAD BOXES ----- *
@@ -129,9 +222,6 @@ UPLOAD_MAP
 
 
 
-
-
-	INCLUDE "./GameController/Maps/TestingMap.x68"
 
 
 *~Font name~Courier New~
