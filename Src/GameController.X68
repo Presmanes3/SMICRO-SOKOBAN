@@ -44,8 +44,52 @@ GET_MAP_ADDRESS
 	ADD.L  D3, D2			; Add result to D2 (map address)
 	ADD.L  D0, D2			; Add colum to D2 (map address)
 	RTS
-	
 
+
+
+* ===== PLAYER MOVEMENTS ===== *
+* Substitute player icon with an space
+DELETE_PLAYER_MEM
+	MOVE.L PLAYER_CURRENT_X, D0	; Move current player X coordinate to D0
+	MOVE.L PLAYER_CURRENT_Y, D1	; Move current player Y coordinate to D1
+	
+	JSR GET_MAP_ADDRESS				; Compute player current memory address
+	
+	MOVE.L D2, A0					; Move result to A0
+	
+	MOVE.B #BLANK_CHAR, (A0)		; Move balnk char to pointer pointe by A0
+	
+	RTS
+
+* Write player icon in current X,Y coordinates
+WRITE_PLAYER_MEM
+	MOVE.L PLAYER_CURRENT_X, D0		; Move current player X coordinate to D0
+	MOVE.L PLAYER_CURRENT_Y, D1		; Move current player Y coordinate to D1
+	
+	JSR GET_MAP_ADDRESS				; Compute player current memory address
+	
+	MOVE.L D2, A0					; Move result to A0
+	
+	MOVE.B #PLAYER_CHAR, (A0)		; Move balnk char to pointer pointe by A0
+
+	RTS
+
+MOVE_PLAYER_RIGHT
+	ADD.L #1, PLAYER_CURRENT_X
+	RTS
+	
+MOVE_PLAYER_LEFT
+	SUB.L #1, PLAYER_CURRENT_X
+	RTS
+	
+MOVE_PLAYER_UP
+	SUB.L #1, PLAYER_CURRENT_Y
+	RTS
+	
+MOVE_PLAYER_DOWN
+	ADD.L #1, PLAYER_CURRENT_Y
+	RTS
+	
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 
 
