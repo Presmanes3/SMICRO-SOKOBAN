@@ -20,6 +20,14 @@ BOX_CURRENT_X_ARRAY	DS.L 2	; Array that indicates current X coordinate of boxes
 BOX_CURRENT_Y_ARRAY	DS.L 2	; Array that indicates current Y coordinate of boxes
 
 
+* ===== GAME SYMBOLS ===== *
+BLANK_CHAR			EQU ' '
+PLAYER_CHAR			EQU '@'
+WALL_CHAR 			EQU '#'
+BOX_CHAR 			EQU '$'
+CHECK_POINT_CHAR	EQU '.'
+
+
 * ===== 	GAME CONTROLLER FUNCTIONS	===== *
 
 * Get the address of the map memory based on X and Y position
