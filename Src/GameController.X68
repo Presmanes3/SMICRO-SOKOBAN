@@ -21,6 +21,8 @@ MAX_GAME_BOXES		EQU	 10
 BOX_CURRENT_X_ARRAY	DS.L MAX_GAME_BOXES	; Array that indicates current X coordinate of boxes
 BOX_CURRENT_Y_ARRAY	DS.L MAX_GAME_BOXES ; Array that indicates current Y coordinate of boxes
 
+BOX_TO_OPERATE		DS.L 1				; Variable that indicates which box must be used for computation
+
 * ===== GAME SYMBOLS ===== *
 BLANK_CHAR			EQU ' '
 PLAYER_CHAR			EQU '@'
