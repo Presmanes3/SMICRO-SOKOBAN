@@ -198,11 +198,11 @@ UPLOAD_MAP
 	
 	FOR.L D1 = #0 TO D0 DO.S
 								; Copy array for coordinates
-		MOVE.L (A0)+, (A2)
-		ADD.L #4, A2
+		MOVE.L (A0)+, (A2)		; Copy value from (A0) to (A2)
+		ADD.L #4, A2			; Move to next address
 		
-		MOVE.L (A1)+, (A3)
-		ADD.L #4, A3
+		MOVE.L (A1)+, (A3)		; Copy value from (A1) to (A3)
+		ADD.L #4, A3			; Move to next address
 		
 	ENDF
 	
