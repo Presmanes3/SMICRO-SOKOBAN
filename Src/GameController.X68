@@ -24,11 +24,13 @@ BOX_CURRENT_Y_ARRAY	DS.L MAX_GAME_BOXES ; Array that indicates current Y coordin
 BOX_TO_OPERATE		DS.L 1				; Variable that indicates which box must be used for computation
 
 * ===== GAME SYMBOLS ===== *
-BLANK_CHAR			EQU ' '
-PLAYER_CHAR			EQU '@'
-WALL_CHAR 			EQU '#'
-BOX_CHAR 			EQU '$'
-CHECK_POINT_CHAR	EQU '.'
+BLANK_CHAR					EQU ' '
+PLAYER_CHAR					EQU '@'
+WALL_CHAR 					EQU '#'
+BOX_CHAR 					EQU '$'
+CHECK_POINT_CHAR			EQU '.'
+BOX_ON_CHECK_POINT_CHAR		EQU '*'
+PLAYER_ON_CHECK_POINT_CHAR 	EQU '+'
 
 
 * ===== 	GAME CONTROLLER FUNCTIONS	===== *
