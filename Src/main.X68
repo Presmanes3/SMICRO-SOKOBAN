@@ -36,15 +36,16 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 	JSR READ_KEYBOARD_SUBROUTINE
 		
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
-		
+	JSR HANDLE_PLAYER_MOVEMENT
+	
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JMP LOOP
 		
 	 
 	* ===== INCLUDES ===== *
  
-	 INCLUDE "./TimerManager/Timers.x68"
-	 INCLUDE "./KeyboardInputHandler/KeyboardInputHandler.x68"
+	INCLUDE "./TimerManager/Timers.x68"
+	INCLUDE "./KeyboardInputHandler/KeyboardInputHandler.x68"
 	; INCLUDE "./Commons.x68"
 	INCLUDE "./GameController.x68"
 	
@@ -54,6 +55,15 @@ KILL_PROGRAM
 
 	END MAIN
 		
+
+
+
+
+
+
+
+
+
 
 
 
