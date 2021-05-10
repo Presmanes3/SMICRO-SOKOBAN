@@ -275,7 +275,7 @@ DELETE_BOX_MEM
 
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
-	MOVE.B BOX_TO_OPERATE, D2
+	MOVE.L BOX_TO_OPERATE, D2
 	
 	MULU   #4, D2
 	
@@ -297,7 +297,7 @@ DELETE_BOX_MEM
 WRITE_BOX_MEM
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
-	MOVE.B BOX_TO_OPERATE, D2
+	MOVE.L BOX_TO_OPERATE, D2
 	
 	MULU   #4, D2
 	
@@ -316,7 +316,7 @@ WRITE_BOX_MEM
 	RTS
 
 MOVE_BOX_RIGHT
-	MOVE.B BOX_TO_OPERATE, D2	
+	MOVE.L BOX_TO_OPERATE, D2	
 	MULU   #4, D2				; Compute offset for selecting box in array
 	
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0
@@ -328,7 +328,7 @@ MOVE_BOX_RIGHT
 	RTS
 	
 MOVE_BOX_LEFT
-	MOVE.B BOX_TO_OPERATE, D2
+	MOVE.L BOX_TO_OPERATE, D2
 	MULU   #4, D2				; Compute offset for selecting box in array
 	
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0
@@ -339,25 +339,25 @@ MOVE_BOX_LEFT
 	RTS
 	
 MOVE_BOX_UP
-	MOVE.B BOX_TO_OPERATE, D2
+	MOVE.L BOX_TO_OPERATE, D2
 	MULU   #4, D2				; Compute offset for selecting box in array
 	
-	MOVE.L #BOX_CURRENT_Y_ARRAY, A0
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A1
 	
-	ADD.L D2, A0
+	ADD.L D2, A1
 	
-	SUB.L #1, (A0)
+	SUB.L #1, (A1)
 	RTS
 	
 MOVE_BOX_DOWN
-	MOVE.B BOX_TO_OPERATE, D2
+	MOVE.L BOX_TO_OPERATE, D2
 	MULU   #4, D2				; Compute offset for selecting box in array
 
-	MOVE.L #BOX_CURRENT_Y_ARRAY, A0
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A1
 	
-	ADD.L D2, A0
+	ADD.L D2, A1
 	
-	ADD.L #1, (A0)
+	ADD.L #1, (A1)
 	RTS
 	
 * @brief Complete move the box up
