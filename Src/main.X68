@@ -42,6 +42,7 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 	JMP LOOP
 		
 	 
+	move.l d1,d0
 	* ===== INCLUDES ===== *
  
 	INCLUDE "./TimerManager/Timers.x68"
