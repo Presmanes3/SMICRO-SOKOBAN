@@ -118,7 +118,7 @@ CHECK_PLAYER_COLLISION_D2
 CHECK_BOX_UP_COLLISION
 	JSR MOVE_BOX_UP				; Move box up
 	
-	
+	JSR GET_BOX_TO_OPERATE_D0_D1
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
 	MOVE.L BOX_TO_OPERATE, D7			; Move box to operate to D7
@@ -142,7 +142,7 @@ CHECK_BOX_UP_COLLISION
 CHECK_BOX_DOWN_COLLISION
 	JSR MOVE_BOX_DOWN				; Move box up
 	
-	
+	JSR GET_BOX_TO_OPERATE_D0_D1
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
 	MOVE.L BOX_TO_OPERATE, D7			; Move box to operate to D7
@@ -166,7 +166,7 @@ CHECK_BOX_DOWN_COLLISION
 CHECK_BOX_LEFT_COLLISION
 	JSR MOVE_BOX_LEFT				; Move box up
 	
-	
+	JSR GET_BOX_TO_OPERATE_D0_D1
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
 	MOVE.L BOX_TO_OPERATE, D7			; Move box to operate to D7
@@ -190,7 +190,7 @@ CHECK_BOX_LEFT_COLLISION
 CHECK_BOX_RIGHT_COLLISION
 	JSR MOVE_BOX_RIGHT				; Move box up
 	
-	
+	JSR GET_BOX_TO_OPERATE_D0_D1
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
 	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
 	MOVE.L BOX_TO_OPERATE, D7			; Move box to operate to D7
