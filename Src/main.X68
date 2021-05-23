@@ -25,6 +25,8 @@ SETUP	; This function will be called at starup of the program
 	JSR INIT_KEYBOARD_INPUT_HANDLER	
 	
 	JSR UPLOAD_MAP
+	
+	JSR RESET_CHECK_POINT_MANAGER
 		
 	RTS
 	
@@ -35,10 +37,9 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 		* =====	CHECK KEYBOARD FOR INPUT ROUTINE 	===== * 
 	JSR READ_KEYBOARD_SUBROUTINE
 		
-		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
-	JSR HANDLE_PLAYER_MOVEMENT
+		* =====	CHECK COLLISIONS AND MOVE PLAYER AND BOXES	===== *
+	JSR HANDLE_MOVEMENTS
 	
-		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JMP LOOP
 		
 	 
@@ -55,6 +56,7 @@ KILL_PROGRAM
 
 	END MAIN
 		
+
 
 
 
