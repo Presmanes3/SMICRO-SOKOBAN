@@ -503,6 +503,27 @@ IDENTIFY_BOX_AT_D2
 	ENDF 
 
 	RTS
+
+* @brief Get box to operate X and Y coordinate to D0 and D1
+* @return X at D0.L
+* @return Y at D1.L
+GET_BOX_TO_OPERATE_D0_D1
+	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to A0
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to A1
+	MOVE.L #0, D0						; Clear register
+	MOVE.L #0, D1						; Clear register
+	MOVE.L BOX_TO_OPERATE, D2			; Move box to operate to D2
+	
+	MULU #4, D2
+	
+	ADD.L  D2, A0						; Get box Address by index saved at D2
+	ADD.L  D2, A1						; Get box Address by index saved at D2
+	
+	MOVE.L (A0), D0						; Get X position of the box
+	MOVE.L (A1), D1						; Get Y position of the box
+	
+	RTS
+	
 	
 * ===== CHECK POINT PRINTER ===== *
 PRINT_CHECKPOINTS
