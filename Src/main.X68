@@ -37,7 +37,9 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 		
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JSR HANDLE_PLAYER_MOVEMENT
+	JSR ENABLEBUFFER
 	JSR PINTAMAPA
+	JSR NOBUFFER
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JMP LOOP
 		
@@ -55,6 +57,7 @@ KILL_PROGRAM
 
 	END MAIN
 		
+
 
 
 
