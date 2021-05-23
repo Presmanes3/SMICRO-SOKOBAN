@@ -23,7 +23,7 @@ MAIN:	ORG $1000
 SETUP	; This function will be called at starup of the program
 	JSR INIT_TIMERS
 	JSR INIT_KEYBOARD_INPUT_HANDLER	
-	
+	;JSR ENABLEBUFFER
 	JSR UPLOAD_MAP
 		
 	RTS
@@ -37,25 +37,27 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 		
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JSR HANDLE_PLAYER_MOVEMENT
-	
+	JSR PINTAMAPA
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JMP LOOP
 		
-	 
-	move.l d1,d0
+		
 	* ===== INCLUDES ===== *
  
 	INCLUDE "./TimerManager/Timers.x68"
 	INCLUDE "./KeyboardInputHandler/KeyboardInputHandler.x68"
 	; INCLUDE "./Commons.x68"
 	INCLUDE "./GameController.x68"
-	
+	INCLUDE "./GameController/MapPainting.x68"
 
 
 KILL_PROGRAM
 
 	END MAIN
 		
+
+
+
 
 
 

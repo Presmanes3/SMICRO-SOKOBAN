@@ -1,9 +1,3 @@
-*-----------------------------------------------------------
-* Title      : PINTAMAPA Sokoban
-* Written by : Fulgencio
-* Date       : 05/2021
-* Description: Mapa Gráfico Sokoban (solo muros y personaje)
-*-----------------------------------------------------------
 DRKGRAY EQU $404040
 RED    EQU $0000FF
  
@@ -15,11 +9,11 @@ SIZE EQU 40
     ORG    $50000
 
 PINTAMAPA
-   MOVEM.L A1/D0-D2,-(A7)
+    MOVEM.L A1/D0-D2,-(A7)
     MOVE.L #MAP,A1
     MOVE.L #ORIX,D1
     MOVE.L #ORIY,D2     *X e Y en D1 y D2
-BUCLE  
+BUCLE 
     MOVE.B (A1)+,D0
     CMP.B #0,D0
     BEQ NUEVAFILA
@@ -69,7 +63,14 @@ PINTAMURO  *Pinta un cuadrado de muro en X,Y indicado por D1 y D2
    
 
 PINTAMOZO
-   MOVEM.L D0-D4,-(A7)
+     MOVE.L D1,D5
+     MOVE.L D2,D6
+     MOVE.L #11,D0 ;BORRA LA PANTALLA
+     MOVE.W #$FF00,D1
+    TRAP #15
+    MOVE.L D5,D1
+    MOVE.L D6,D2
+    MOVEM.L D0-D4,-(A7)
     ADD.L #SIZE/4,D1         *mitad tamaño que el muro
     ADD.L #SIZE/4,D2        *quitamos 1/4 de cada lado
     MOVE.L D1,D3
@@ -102,6 +103,13 @@ ROJO
 
 
   
+
+
+
+
+
+
+
 
 *~Font name~Courier New~
 *~Font size~10~

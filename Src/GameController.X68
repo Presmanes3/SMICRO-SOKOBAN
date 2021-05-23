@@ -559,8 +559,11 @@ UPLOAD_MAP
 	MOVE.L #PLAYER_START_Y, PLAYER_CURRENT_Y
 	
 	RTS
-	
-	
+ENABLEBUFFER
+  MOVE.b	#92,d0
+  MOVE.b	#17,d1				  
+  TRAP		#15	
+  RTS	
 
 	
 * ===== SETTERS AND GETTERS ===== *
@@ -632,6 +635,7 @@ RESET_BOX_MOVE_RIGHT_FLAG
 
 	INCLUDE "./GameController/CollisionManager/CollisionManager.x68"
 	INCLUDE "./GameController/Maps/TestingMap.x68"
+
 
 
 
