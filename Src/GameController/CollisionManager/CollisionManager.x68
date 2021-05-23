@@ -101,13 +101,18 @@ CHECK_PLAYER_COLLISION_D2
 
 	MOVE.L D2, A0
 	
-	IF.B (A0) <EQ> #WALL_CHAR THEN.S
+	IF.B (A0) <EQ> #WALL_CHAR THEN.S				; Check if player found a wall
 	
 		JSR PLAYER_FOUND_WALL
 	
 	ENDI 
-	IF.B (A0) <EQ> #BOX_CHAR THEN.S
+	IF.B (A0) <EQ> #BOX_CHAR THEN.S					; Check if player found a normal box
 		
+		JSR PLAYER_FOUND_BOX
+		
+	ENDI
+	IF.B (A0) <EQ> #BOX_ON_CHECK_POINT_CHAR THEN.S	; Check if player found a box over checkpoint
+			
 		JSR PLAYER_FOUND_BOX
 		
 	ENDI
@@ -217,12 +222,17 @@ CHECK_BOX_COLLISION_D2
 
 	MOVE.L D2, A0
 	
-	IF.B (A0) <EQ> #WALL_CHAR THEN.S
+	IF.B (A0) <EQ> #WALL_CHAR THEN.S				; Check if box found a wall
 	
 		JSR BOX_FOUND_WALL
 	
 	ENDI 
-	IF.B (A0) <EQ> #BOX_CHAR THEN.S
+	IF.B (A0) <EQ> #BOX_CHAR THEN.S					; Check if box found a normal box
+		
+		JSR BOX_FOUND_BOX
+		
+	ENDI
+	IF.B (A0) <EQ> #BOX_ON_CHECK_POINT_CHAR THEN.S	; Check if box found a box over a check point
 		
 		JSR BOX_FOUND_BOX
 		
