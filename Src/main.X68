@@ -38,7 +38,8 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 	JSR READ_KEYBOARD_SUBROUTINE
 		
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
-	JSR HANDLE_PLAYER_MOVEMENT
+	JSR HANDLE_MOVEMENTS
+	
 	JSR ENABLEBUFFER
 	JSR PINTAMAPA
 	JSR NOBUFFER
@@ -59,6 +60,7 @@ KILL_PROGRAM
 
 	END MAIN
 		
+
 
 
 

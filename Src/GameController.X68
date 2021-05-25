@@ -1,4 +1,4 @@
-f*-----------------------------------------------------------
+*-----------------------------------------------------------
 * Title      : Game controller
 * Written by : Javier Presmanes Cardama & Samuel Garcia Such
 * Date       : 03/05/2021
@@ -742,6 +742,7 @@ RESET_BOX_MOVE_RIGHT_FLAG
 	INCLUDE "./GameController/CollisionManager/CollisionManager.x68"
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 	INCLUDE "./GameController/CheckPointsManager.x68"
+
 
 
 
