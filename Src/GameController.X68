@@ -1,4 +1,4 @@
-f*-----------------------------------------------------------
+*-----------------------------------------------------------
 * Title      : Game controller
 * Written by : Javier Presmanes Cardama & Samuel Garcia Such
 * Date       : 03/05/2021
@@ -59,7 +59,7 @@ GET_MAP_ADDRESS
 	ADD.L  D0, D2			; Add colum to D2 (map address)
 	RTS
 
-HANDLE_PLAYER_MOVEMENT
+HANDLE_MOVEMENTS
 
 * ======================= UP MOVEMENT ==================================== *
 	IF.B UP_MOVEMENT_DETECTED <EQ> #1 THEN.L
@@ -312,6 +312,18 @@ WRITE_PLAYER_MEM
 	MOVE.B #PLAYER_CHAR, (A0)		; Move balnk char to pointer pointe by A0
 
 	RTS
+	
+WRITE_PLAYER_ON_CHECK_POINT_MEM
+	MOVE.L PLAYER_CURRENT_X, D0		; Move current player X coordinate to D0
+	MOVE.L PLAYER_CURRENT_Y, D1		; Move current player Y coordinate to D1
+	
+	JSR GET_MAP_ADDRESS				; Compute player current memory address
+	
+	MOVE.L D2, A0					; Move result to A0
+	
+	MOVE.B #PLAYER_ON_CHECK_POINT_CHAR, (A0)		; Move balnk char to pointer pointe by A0
+
+	RTS
 
 MOVE_PLAYER_RIGHT
 	ADD.L #1, PLAYER_CURRENT_X
@@ -332,42 +344,68 @@ MOVE_PLAYER_DOWN
 MOVE_PLAYER_UP_ROUTINE
 	JSR DELETE_PLAYER_MEM
 	JSR MOVE_PLAYER_UP
-	JSR WRITE_PLAYER_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_PLAYER_ON_CHECK_POINT
+	
+	IF.L IS_PLAYER_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_PLAYER_ON_CHECK_POINT_MEM
+		JSR RESET_PLAYER_OVER_CHECK_POINT
+	ELSE
+		JSR WRITE_PLAYER_MEM
+	ENDI
 	RTS
 	
 MOVE_PLAYER_DOWN_ROUTINE
 	JSR DELETE_PLAYER_MEM
 	JSR MOVE_PLAYER_DOWN
-	JSR WRITE_PLAYER_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_PLAYER_ON_CHECK_POINT
+	
+	IF.L IS_PLAYER_OVER_CHECK_POINT <EQ> #1 THEN.L	; If player is over check point
+		JSR RESET_PLAYER_OVER_CHECK_POINT			; Reset flag to avoid continuous printing
+		JSR WRITE_PLAYER_ON_CHECK_POINT_MEM			; Print player over check point 			
+	ELSE
+		JSR WRITE_PLAYER_MEM						; Otherwise print normal player
+	ENDI
 	RTS
 	
 MOVE_PLAYER_LEFT_ROUTINE
 	JSR DELETE_PLAYER_MEM
 	JSR MOVE_PLAYER_LEFT
-	JSR WRITE_PLAYER_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_PLAYER_ON_CHECK_POINT
+	
+	IF.L IS_PLAYER_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_PLAYER_ON_CHECK_POINT_MEM
+		JSR RESET_PLAYER_OVER_CHECK_POINT
+	ELSE
+		JSR WRITE_PLAYER_MEM
+	ENDI
 	RTS
 	
 MOVE_PLAYER_RIGHT_ROUTINE
 	JSR DELETE_PLAYER_MEM
 	JSR MOVE_PLAYER_RIGHT
-	JSR WRITE_PLAYER_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_PLAYER_ON_CHECK_POINT
+
+	IF.L IS_PLAYER_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_PLAYER_ON_CHECK_POINT_MEM
+		JSR RESET_PLAYER_OVER_CHECK_POINT
+	ELSE
+		JSR WRITE_PLAYER_MEM
+	ENDI
 	RTS
 	
 * ===== BOX MOVEMENTS ===== *
 * Delete box selected by index saved at D2
 DELETE_BOX_MEM
 
-	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
-	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
-	MOVE.L BOX_TO_OPERATE, D2
-	
-	MULU   #4, D2
-	
-	ADD.L  D2, A0						; Get box Address by index saved at D2
-	ADD.L  D2, A1						; Get box Address by index saved at D2
-	
-	MOVE.L (A0), D0
-	MOVE.L (A1), D1
+	JSR GET_BOX_TO_OPERATE_D0_D1
 	
 	JSR GET_MAP_ADDRESS					; Compute box current memory address
 	
@@ -379,23 +417,25 @@ DELETE_BOX_MEM
 
 * Write player icon in current X,Y coordinates
 WRITE_BOX_MEM
-	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
-	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to D1
-	MOVE.L BOX_TO_OPERATE, D2
-	
-	MULU   #4, D2
-	
-	ADD.L  D2, A0						; Get box Address by index saved at D2
-	ADD.L  D2, A1						; Get box Address by index saved at D2
-	
-	MOVE.L (A0), D0
-	MOVE.L (A1), D1
+	JSR GET_BOX_TO_OPERATE_D0_D1
 	
 	JSR GET_MAP_ADDRESS					; Compute box current memory address
 	
 	MOVE.L D2, A0						; Move result to A0
 	
 	MOVE.B #BOX_CHAR, (A0)			; Move box char to pointer pointe by A0
+
+	RTS
+	
+WRITE_BOX_OVER_CHECK_POINT_MEM
+	
+	JSR GET_BOX_TO_OPERATE_D0_D1
+	
+	JSR GET_MAP_ADDRESS					; Compute box current memory address
+	
+	MOVE.L D2, A0						; Move result to A0
+	
+	MOVE.B #BOX_ON_CHECK_POINT_CHAR, (A0) ; Move box char to pointer pointe by A0
 
 	RTS
 
@@ -449,7 +489,15 @@ MOVE_BOX_DOWN
 MOVE_BOX_UP_ROUTINE
 	JSR DELETE_BOX_MEM
 	JSR MOVE_BOX_UP
-	JSR WRITE_BOX_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_BOX_OVER_CHECK_POINT
+	
+	IF.L IS_BOX_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_BOX_OVER_CHECK_POINT_MEM
+	ELSE
+		JSR WRITE_BOX_MEM
+	ENDI
 	RTS
 
 * @brief Complete move the box down
@@ -457,7 +505,15 @@ MOVE_BOX_UP_ROUTINE
 MOVE_BOX_DOWN_ROUTINE
 	JSR DELETE_BOX_MEM
 	JSR MOVE_BOX_DOWN
-	JSR WRITE_BOX_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_BOX_OVER_CHECK_POINT
+	
+	IF.L IS_BOX_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_BOX_OVER_CHECK_POINT_MEM
+	ELSE
+		JSR WRITE_BOX_MEM
+	ENDI
 	RTS
 
 * @brief Complete move the box left
@@ -465,7 +521,15 @@ MOVE_BOX_DOWN_ROUTINE
 MOVE_BOX_LEFT_ROUTINE
 	JSR DELETE_BOX_MEM
 	JSR MOVE_BOX_LEFT
-	JSR WRITE_BOX_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_BOX_OVER_CHECK_POINT
+	
+	IF.L IS_BOX_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_BOX_OVER_CHECK_POINT_MEM
+	ELSE
+		JSR WRITE_BOX_MEM
+	ENDI
 	RTS
 
 * @brief Complete move the box right
@@ -473,7 +537,15 @@ MOVE_BOX_LEFT_ROUTINE
 MOVE_BOX_RIGHT_ROUTINE
 	JSR DELETE_BOX_MEM
 	JSR MOVE_BOX_RIGHT
-	JSR WRITE_BOX_MEM
+	JSR PRINT_CHECKPOINTS
+	
+	JSR CHECK_BOX_OVER_CHECK_POINT
+	
+	IF.L IS_BOX_OVER_CHECK_POINT <EQ> #1 THEN.L
+		JSR WRITE_BOX_OVER_CHECK_POINT_MEM
+	ELSE
+		JSR WRITE_BOX_MEM
+	ENDI
 	RTS
 	
 
@@ -503,6 +575,27 @@ IDENTIFY_BOX_AT_D2
 	ENDF 
 
 	RTS
+
+* @brief Get box to operate X and Y coordinate to D0 and D1
+* @return X at D0.L
+* @return Y at D1.L
+GET_BOX_TO_OPERATE_D0_D1
+	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to A0
+	MOVE.L #BOX_CURRENT_Y_ARRAY, A1 	; Move box Y coordinates array to A1
+	MOVE.L #0, D0						; Clear register
+	MOVE.L #0, D1						; Clear register
+	MOVE.L BOX_TO_OPERATE, D2			; Move box to operate to D2
+	
+	MULU #4, D2
+	
+	ADD.L  D2, A0						; Get box Address by index saved at D2
+	ADD.L  D2, A1						; Get box Address by index saved at D2
+	
+	MOVE.L (A0), D0						; Get X position of the box
+	MOVE.L (A1), D1						; Get Y position of the box
+	
+	RTS
+	
 	
 * ===== CHECK POINT PRINTER ===== *
 PRINT_CHECKPOINTS
@@ -519,8 +612,17 @@ PRINT_CHECKPOINTS
 		JSR GET_MAP_ADDRESS
 		
 		MOVE.L D2, A2
-		MOVE.B #CHECK_POINT_CHAR, (A2)
+		MOVE.B (A2), D3
 		
+		IF.L #BOX_CHAR <NE> D3 THEN.L
+			IF.L #BOX_ON_CHECK_POINT_CHAR <NE> D3 THEN.L
+				IF.L #PLAYER_CHAR <NE> D3 THEN.L
+					IF.L #PLAYER_ON_CHECK_POINT_CHAR <NE> D3 THEN.L
+						MOVE.B #CHECK_POINT_CHAR, (A2)				; If no other item on this pos, print check point
+					ENDI
+				ENDI
+			ENDI
+		ENDI
 	ENDF
 	
 	RTS
@@ -639,6 +741,9 @@ RESET_BOX_MOVE_RIGHT_FLAG
 
 	INCLUDE "./GameController/CollisionManager/CollisionManager.x68"
 	INCLUDE "./GameController/Maps/TestingMap.x68"
+	INCLUDE "./GameController/CheckPointsManager.x68"
+
+
 
 
 
