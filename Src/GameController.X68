@@ -1,4 +1,4 @@
-*-----------------------------------------------------------
+f*-----------------------------------------------------------
 * Title      : Game controller
 * Written by : Javier Presmanes Cardama & Samuel Garcia Such
 * Date       : 03/05/2021
@@ -661,9 +661,16 @@ UPLOAD_MAP
 	MOVE.L #PLAYER_START_Y, PLAYER_CURRENT_Y
 	
 	RTS
-	
-	
-
+ENABLEBUFFER
+  MOVE.b	#92,d0
+  MOVE.b	#17,d1				  
+  TRAP		#15	
+  RTS	
+NOBUFFER
+ MOVE.B #92,D0
+ MOVE.B #16,D1
+ TRAP #15
+ RTS
 	
 * ===== SETTERS AND GETTERS ===== *
 * ===== PLAYER ===== *
@@ -735,6 +742,8 @@ RESET_BOX_MOVE_RIGHT_FLAG
 	INCLUDE "./GameController/CollisionManager/CollisionManager.x68"
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 	INCLUDE "./GameController/CheckPointsManager.x68"
+
+
 
 
 
