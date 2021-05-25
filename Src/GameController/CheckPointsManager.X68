@@ -13,8 +13,6 @@
 CHECK_POINTS_MANAGER:
 
 * ===== VARIABLES ===== *
-BOXES_OVER_CHECK_POINT		DS.L 1		; Variable that indicates how many boxes are over checkpoints
-
 IS_BOX_OVER_CHECK_POINT 	DS.L 1		; Flag that indicates if box is on a checkpoint
 
 IS_PLAYER_OVER_CHECK_POINT	DS.L 1		; Flag that indicates if player is on a checkpoint
@@ -40,9 +38,7 @@ CHECK_BOX_OVER_CHECK_POINT
 		
 		IF.L D0 <EQ> D2 THEN.L		; If X coordinates are equal
 		
-			IF.L D1 <EQ> D3 THEN.L	; And if Y coordinates are equal
-				JSR ADD_BOX_OVER_CHECK_POINT	; Add one box to global counter variable
-				
+			IF.L D1 <EQ> D3 THEN.L	; And if Y coordinates are equal				
 				JSR SET_BOX_OVER_CHECK_POINT	; Box is over check point
 				
 				RTS								; End function
@@ -103,17 +99,7 @@ RESET_BOX_OVER_CHECK_POINT
 	MOVE.L #0, IS_BOX_OVER_CHECK_POINT
 	RTS
 	
-ADD_BOX_OVER_CHECK_POINT
-	ADD.L #1, BOXES_OVER_CHECK_POINT
-	RTS
-	
-REMOVE_BOX_OVER_CHECK_POINT
-	SUB.L #1, BOXES_OVER_CHECK_POINT
-	RTS
-
 RESET_CHECK_POINT_MANAGER
-	MOVE.L #0, BOXES_OVER_CHECK_POINT
-	
 	MOVE.L #0, IS_BOX_OVER_CHECK_POINT
 	MOVE.L #0, IS_PLAYER_OVER_CHECK_POINT
 	RTS
