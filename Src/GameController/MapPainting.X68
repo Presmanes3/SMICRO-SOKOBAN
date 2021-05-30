@@ -14,7 +14,7 @@ SIZE EQU 40
 
 PINTAMAPA	    	
     MOVEM.L A1/D0-D2,-(A7)
-    MOVE.L #MAP,A1
+    MOVE.L LEVEL_MAP_ADDRESS,A1
     MOVE.L #ORIX,D1
     MOVE.L #ORIY,D2     *X e Y en D1 y D2 
     
@@ -179,6 +179,7 @@ AZUL
     
 
   
+
 
 
 

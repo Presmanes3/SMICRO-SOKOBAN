@@ -13,13 +13,24 @@
 GAME_CONTROLLER:
 	
 * ===== 	GAME CONTROLLER VARIABLES 	===== *	
-PLAYER_CURRENT_X	DS.L 1				; Current X coordinate of player
-PLAYER_CURRENT_Y	DS.L 1				; Current Y coordinate of player
+LEVEL_TOTAL_BOXES 			DS.L 1
+LEVEL_TOTAL_CHECK_POINTS 	DS.L 1	
+LEVEL_MAP_WIDTH				DS.L 1
+LEVEL_MAP_HEIGHT			DS.L 1
+LEVEL_MAP_ADDRESS			DS.L 1
+
+PLAYER_CURRENT_X		DS.L 1			; Current X coordinate of player
+PLAYER_CURRENT_Y		DS.L 1			; Current Y coordinate of player
 
 PLAYER_CAN_MOVE_UP		DS.B 1			; Signal that indicates if player can move up 
 PLAYER_CAN_MOVE_DOWN	DS.B 1			; Signal that indicates if player can move down
 PLAYER_CAN_MOVE_LEFT	DS.B 1			; Signal that indicates if player can move left
 PLAYER_CAN_MOVE_RIGHT	DS.B 1			; Signal that indicates if player can move right
+
+MAX_GAME_CHECK_POINTS EQU 10
+
+CHECK_POINT_CURRENT_X_ARRAY DS.L MAX_GAME_CHECK_POINTS
+CHECK_POINT_CURRENT_Y_ARRAY DS.L MAX_GAME_CHECK_POINTS
 
 MAX_GAME_BOXES		EQU	 10
 
@@ -50,8 +61,8 @@ PLAYER_ON_CHECK_POINT_CHAR 	EQU '+'
 * D1.L = Y > Row
 * Address will be stored and returned in D2
 GET_MAP_ADDRESS
-	MOVE.L #MAP, D2			; Move map address to D2 to make computations
-	MOVE.L #MAP_WIDTH, D3	; Move map width to D3 to make computations
+	MOVE.L LEVEL_MAP_ADDRESS, D2			; Move map address to D2 to make computations
+	MOVE.L LEVEL_MAP_WIDTH, D3	; Move map width to D3 to make computations
 	
 	MULU.W D1, D3			; Multiplay Row with map width
 	
@@ -554,7 +565,7 @@ MOVE_BOX_RIGHT_ROUTINE
 * @return Box index in BOX_TO_OPERATE
 IDENTIFY_BOX_AT_D2
 	MOVE.L D2, D7			; Move address to D7 as backup
-	MOVE.L #TOTAL_BOXES, D6	; Save TOTAL BOXES to D6 to operate
+	MOVE.B LEVEL_TOTAL_BOXES, D6	; Save TOTAL BOXES to D6 to operate
 	SUB.B #1, D6			; Substract 1 in order to avoid overflow
 	
 	MOVE.L #BOX_CURRENT_X_ARRAY, A0 	; Move box X coordinates array to D0
@@ -599,11 +610,11 @@ GET_BOX_TO_OPERATE_D0_D1
 	
 * ===== CHECK POINT PRINTER ===== *
 PRINT_CHECKPOINTS
-	MOVE.L #TOTAL_CHECK_POINTS, D7
+	MOVE.L LEVEL_TOTAL_CHECK_POINTS, D7
 	SUB.B #1, D7
 	
-	MOVE.L #CHECK_POINT_X_ARRAY, A0
-	MOVE.L #CHECK_POINT_Y_ARRAY, A1
+	MOVE.L #CHECK_POINT_CURRENT_X_ARRAY, A0
+	MOVE.L #CHECK_POINT_CURRENT_Y_ARRAY, A1
 	
 	FOR.L D6 = #0 TO D7 DO.S
 		MOVE.L (A0)+, D0
@@ -628,10 +639,8 @@ PRINT_CHECKPOINTS
 	RTS
 
 UPLOAD_MAP
-
-	* TODO : ADD BINARY FILE BASED ON MAP SELECTOR *
-
-	* ----- UPLOAD BOXES ----- *
+	* Update boxes
+	MOVE.L #TOTAL_BOXES, LEVEL_TOTAL_BOXES
 	MOVE.L #TOTAL_BOXES, D0
 	SUB.B #1, D0
 	
@@ -650,12 +659,32 @@ UPLOAD_MAP
 		
 	ENDF
 	
-	MOVE.L #0, D0
-	MOVE.L #0, A0
-	MOVE.L #0, A1
-	MOVE.L #0, A2
-	MOVE.L #0, A3
+	* Update Check Points 
+	MOVE.L #TOTAL_CHECK_POINTS, LEVEL_TOTAL_CHECK_POINTS
+	MOVE.L #TOTAL_CHECK_POINTS, D0
+	SUB.B #1, D0
 	
+	MOVE.L #CHECK_POINT_X_ARRAY, A0
+	MOVE.L #CHECK_POINT_Y_ARRAY, A1
+	MOVE.L #CHECK_POINT_CURRENT_X_ARRAY, A2
+	MOVE.L #CHECK_POINT_CURRENT_Y_ARRAY, A3
+
+	FOR.L D1 = #0 TO D0 DO.S
+								; Copy array for coordinates
+		MOVE.L (A0)+, (A2)		; Copy value from (A0) to (A2)
+		ADD.L #4, A2			; Move to next address
+		
+		MOVE.L (A1)+, (A3)		; Copy value from (A1) to (A3)
+		ADD.L #4, A3			; Move to next address
+	ENDF
+	
+	* Update map dimensions
+	MOVE.L #MAP_WIDTH, LEVEL_MAP_WIDTH
+	MOVE.L #MAP_HEIGHT, LEVEL_MAP_HEIGHT
+	
+	* Updata map address
+	MOVE.L #MAP, LEVEL_MAP_ADDRESS
+
 	* ----- UPLOAD PLAYER ----- *
 	MOVE.L #PLAYER_START_X, PLAYER_CURRENT_X
 	MOVE.L #PLAYER_START_Y, PLAYER_CURRENT_Y
@@ -742,6 +771,8 @@ RESET_BOX_MOVE_RIGHT_FLAG
 	INCLUDE "./GameController/CollisionManager/CollisionManager.x68"
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 	INCLUDE "./GameController/CheckPointsManager.x68"
+	INCLUDE "./GameController/MapManager.x68"
+
 
 
 
