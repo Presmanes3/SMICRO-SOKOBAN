@@ -5,7 +5,7 @@
 * Description: Map designed for testing purpouses
 * Repository : https://github.com/Presmanes3/SMICRO-SOKOBAN
 *-----------------------------------------------------------
-	ORG $10000
+	ORG $20000
 MAP: 	DC.B '######  ',0
 		DC.B '#    ###',0
 		DC.B '# ##$$ #',0
@@ -14,7 +14,8 @@ MAP: 	DC.B '######  ',0
 		DC.B '#.#    #',0
 		DC.B '#. @####',0
 		DC.B '#####   ',0
-		
+ ORG $20050
+MAP2_INFORMATION:		
 		
 * ===== MAP INFORMATION ===== *
 MAP_WIDTH  EQU 9
@@ -35,6 +36,8 @@ TOTAL_CHECK_POINTS	EQU TOTAL_BOXES		; Total check points based on total boxes
 
 CHECK_POINT_X_ARRAY	DC.L 1,1			; Array that indicates X coordinate of check points
 CHECK_POINT_Y_ARRAY	DC.L 5,6			; Array that indicated Y coordinate of check points
+
+
 
 
 
