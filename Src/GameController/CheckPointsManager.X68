@@ -17,6 +17,7 @@ IS_BOX_OVER_CHECK_POINT 	DS.L 1		; Flag that indicates if box is on a checkpoint
 
 IS_PLAYER_OVER_CHECK_POINT	DS.L 1		; Flag that indicates if player is on a checkpoint
 
+ALL_BOXES_OVER_CHECK_POINT 	DS.L 1		; Flag that indicates if all boxes are over check points
 
 * ===== FUNCTIONS ===== *
 
@@ -82,6 +83,37 @@ CHECK_PLAYER_ON_CHECK_POINT
 	
 	RTS	
 	
+CHECK_ALL_BOXES_ON_CHECK_POINT
+
+	MOVE.L #0, D4						; Local variable used for acumulate how many boxes are over check points
+	SUB.L #1, LEVEL_TOTAL_BOXES
+	
+	FOR.L D5 = #0 TO LEVEL_TOTAL_BOXES DO.L
+		
+		MOVE.L D5, BOX_TO_OPERATE		; Change box to operate to check all boxes
+		
+		JSR CHECK_BOX_OVER_CHECK_POINT	; Check if box is over check point
+		
+		IF.L IS_BOX_OVER_CHECK_POINT <EQ> #1 THEN.L
+			JSR RESET_BOX_OVER_CHECK_POINT
+			
+			ADD.L #1, D4			
+		ENDI
+	ENDF
+	
+	ADD.L #1, LEVEL_TOTAL_BOXES
+	
+	IF.L D4 <EQ> D5 THEN.L
+		JSR SET_ALL_BOXES_OVER_CHECK_POINTS
+	ENDI
+	
+	
+	MOVE.L #0, D0
+	MOVE.L #0, D1
+	MOVE.L #0, BOX_TO_OPERATE
+	
+	RTS
+	
 * ===== SETTERS AND GETTERS ===== *
 SET_PLAYER_OVER_CHECK_POINT
 	MOVE.L #1, IS_PLAYER_OVER_CHECK_POINT
@@ -99,10 +131,21 @@ RESET_BOX_OVER_CHECK_POINT
 	MOVE.L #0, IS_BOX_OVER_CHECK_POINT
 	RTS
 	
+SET_ALL_BOXES_OVER_CHECK_POINTS
+	MOVE.L #1, ALL_BOXES_OVER_CHECK_POINT
+	RTS
+	
+RESET_ALL_BOXES_OVER_POINTS
+	MOVE.L #0, ALL_BOXES_OVER_CHECK_POINT
+	RTS
+	
 RESET_CHECK_POINT_MANAGER
 	MOVE.L #0, IS_BOX_OVER_CHECK_POINT
 	MOVE.L #0, IS_PLAYER_OVER_CHECK_POINT
+	MOVE.L #0, ALL_BOXES_OVER_CHECK_POINT
 	RTS
+	
+
 
 
 
@@ -112,6 +155,7 @@ RESET_CHECK_POINT_MANAGER
 
 
 	
+
 
 
 

@@ -8,10 +8,10 @@
 	ORG $10200
 MAP_2: 	DC.B '######  ',0
 		DC.B '#    ###',0
-		DC.B '# ##$$ #',0 * 0 > Box (4,2) || 1 > Box (5,2)
+		DC.B '# # $$ #',0 * 0 > Box (4,2) || 1 > Box (5,2)
 		DC.B '# #  # #',0
 		DC.B '#    # #',0
-		DC.B '#.#    #',0 * 0 > Check Point (1,5) 
+		DC.B '#.     #',0 * 0 > Check Point (1,5) 
 		DC.B '#. @####',0 * 0 > Check Point (1,6)  
 		DC.B '#####   ',0
 MAP_2_INFORMATION:
@@ -36,6 +36,7 @@ TOTAL_CHECK_POINTS_2	EQU TOTAL_BOXES_2		; Total check points based on total boxe
 
 CHECK_POINT_X_ARRAY_2	DC.L 1,1			; Array that indicates X coordinate of check points
 CHECK_POINT_Y_ARRAY_2	DC.L 5,6			; Array that indicated Y coordinate of check points
+
 
 
 
