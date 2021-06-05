@@ -41,6 +41,17 @@ TOTAL_CHECK_POINTS_1	EQU TOTAL_BOXES_1		; Total check points based on total boxe
 CHECK_POINT_X_ARRAY_1	DC.L 1,5,1,4,6,4			; Array that indicates X coordinate of check points
 CHECK_POINT_Y_ARRAY_1	DC.L 2,3,4,5,6,7			; Array that indicated Y coordinate of check points
 
+ ORG $31050
+BACKUPMAP1: DC.B '  ##### ',0
+		    DC.B '###   # ',0
+		    DC.B '#.@$  # ',0
+		    DC.B '### $.# ',0
+		    DC.B '#.##$ # ',0
+	        DC.B '# # . ##',0
+		    DC.B '#$  $$.#',0
+	    	DC.B '#   .  #',0
+		    DC.B '########',0
+
 
 
 

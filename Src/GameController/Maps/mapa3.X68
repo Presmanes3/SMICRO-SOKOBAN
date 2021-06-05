@@ -14,6 +14,7 @@ MAP_3: 	DC.B ' ####   ',0
 		DC.B '#.$  # #',0
 		DC.B '#.   $ #',0
 		DC.B '########',0
+		DC.B '        ',0
 MAP_3_INFORMATION:
 
 * ===== MAP INFORMATION ===== *
@@ -35,8 +36,16 @@ BOX_START_Y_ARRAY_3 	DC.L 2,5,6		; Array that indicated starting Y coordinate of
 	ORG $103A0
 TOTAL_CHECK_POINTS_3	EQU TOTAL_BOXES_3		; Total check points based on total boxes
 
-CHECK_POINT_X_ARRAY_3	DC.L 1,1,1			; Array that indicates X coordinate of check points
-CHECK_POINT_Y_ARRAY_3	DC.L 4,5,6			; Array that indicated Y coordinate of check points
+		        DC.B '        ',0
+		        DC.B '########',0
+		        DC.B '#.   $ #',0
+		        DC.B '#.$  # #',0
+		        DC.B '#.# #  #',0
+		        DC.B '### # ##',0
+		        DC.B ' #@$  # ',0
+		        DC.B ' #  ### ',0
+BACKUPMAP3: 	DC.B ' ####   ',0
+
 
 
 
