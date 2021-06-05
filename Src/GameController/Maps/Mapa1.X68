@@ -6,7 +6,7 @@
 * Repository : https://github.com/Presmanes3/SMICRO-SOKOBAN
 *-----------------------------------------------------------
 	ORG $30000
-MAP: 	DC.B '  ##### ',0
+MAP1: 	DC.B '  ##### ',0
 		DC.B '###   # ',0
 		DC.B '#.@$  # ',0
 		DC.B '### $.# ',0
@@ -14,7 +14,7 @@ MAP: 	DC.B '  ##### ',0
 		DC.B '# # . ##',0
 		DC.B '#$  $$.#',0
 		DC.B '#   .  #',0
-		DC.B '########',0
+		DC.B '########',0		
  ORG $30050
 MAP1_INFORMATION:		
 * ===== MAP INFORMATION ===== *
@@ -36,6 +36,20 @@ TOTAL_CHECK_POINTS	EQU TOTAL_BOXES		; Total check points based on total boxes
 
 CHECK_POINT_X_ARRAY	DC.L 2,5,1,4,6,4			; Array that indicates X coordinate of check points
 CHECK_POINT_Y_ARRAY	DC.L 1,3,4,5,6,7			; Array that indicated Y coordinate of check points
+
+ ORG $31050
+BACKUPMAP1: DC.B '  ##### ',0
+		    DC.B '###   # ',0
+		    DC.B '#.@$  # ',0
+		    DC.B '### $.# ',0
+		    DC.B '#.##$ # ',0
+	        DC.B '# # . ##',0
+		    DC.B '#$  $$.#',0
+	    	DC.B '#   .  #',0
+		    DC.B '########',0
+
+
+
 
 
 
