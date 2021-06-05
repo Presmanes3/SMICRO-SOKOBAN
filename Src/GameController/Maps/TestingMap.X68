@@ -31,12 +31,21 @@ BOX_START_X_ARRAY 	DC.L 2,3			; Array that indicates starting X coordinate of bo
 BOX_START_Y_ARRAY 	DC.L 2,2			; Array that indicated starting Y coordinate of boxes
 
 * ===== CHECK POINTS INFORMATION ===== *
-	ORG $100C0
+	ORG $100A0
 TOTAL_CHECK_POINTS	EQU TOTAL_BOXES		; Total check points based on total boxes
 
 CHECK_POINT_X_ARRAY	DC.L 3,5			; Array that indicates X coordinate of check points
 CHECK_POINT_Y_ARRAY	DC.L 3,3			; Array that indicated Y coordinate of check points
 
+	ORG $100B0
+MAP_BACKUP: 	DC.B '#######',0
+				DC.B '#@    #',0
+				DC.B '# $$  #',0
+				DC.B '# #. .#',0
+				DC.B '#     #',0
+				DC.B '#######',0
+	
+	
 
 
 

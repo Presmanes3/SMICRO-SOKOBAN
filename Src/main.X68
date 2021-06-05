@@ -23,8 +23,11 @@ MAIN:	ORG $1000
 SETUP	; This function will be called at starup of the program
 	JSR INIT_TIMERS
 	JSR INIT_KEYBOARD_INPUT_HANDLER	
+	;JSR MUSICAL
 	;JSR ENABLEBUFFER
-	JSR UPLOAD_MAP
+	
+	MOVE.L #0, LEVEL 
+	JSR UPDATE_NEW_MAP
 	
 	JSR RESET_CHECK_POINT_MANAGER
 		
@@ -43,6 +46,10 @@ LOOP	; Main loop, this function will be called constantly until the end of the p
 	JSR ENABLEBUFFER
 	JSR PINTAMAPA
 	JSR NOBUFFER
+	
+		 
+	JSR MAP_CHANGER_CONTROLLER 
+		
 		* =====	CHECK KEYBOARD FLAGS ROUTINE 		===== *
 	JMP LOOP
 		
@@ -60,6 +67,7 @@ KILL_PROGRAM
 
 	END MAIN
 		
+
 
 
 
