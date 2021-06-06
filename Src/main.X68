@@ -24,8 +24,10 @@ SETUP	; This function will be called at starup of the program
 	JSR INIT_TIMERS
 	JSR INIT_KEYBOARD_INPUT_HANDLER	
 	JSR MUSICAL
+	
 	MOVE.L #0, LEVEL 
 	JSR UPDATE_NEW_MAP
+	
 	JSR RESET_CHECK_POINT_MANAGER
 	JSR INTERFAZ	
 	RTS
@@ -67,6 +69,7 @@ KILL_PROGRAM
 
 	END MAIN
 		
+
 
 
 

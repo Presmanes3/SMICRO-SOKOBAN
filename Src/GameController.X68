@@ -737,6 +737,10 @@ UPDATE_NEXT_LEVEL
 			MOVE.L D0, LEVEL
 		ENDI
 		
+		JSR NEXTLEVELSCREEN 
+	
+		JSR DELAY_1500MS
+	
 		JSR UPDATE_NEW_MAP
 	ENDI
 	RTS
@@ -763,6 +767,14 @@ UPDATE_NEW_MAP
 		JSR CHARGE_MAP_3
 	ENDI
 	
+	RTS
+	
+	
+DELAY_1500MS
+	MOVE.L #23, D0
+	MOVE.L #150, D1
+	
+	TRAP #15
 	RTS
  
 	
@@ -837,6 +849,7 @@ RESET_BOX_MOVE_RIGHT_FLAG
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 	INCLUDE "./GameController/CheckPointsManager.x68"
 	INCLUDE "./GameController/MapManager.x68"
+
 
 
 
