@@ -75,7 +75,11 @@ GET_MAP_ADDRESS
 	RTS
 
 HANDLE_MOVEMENTS
-
+* ======================= RESTART MAP ==================================== *
+ IF.B RESTART_MAP_DETECTED <EQ> #1 THEN.L
+ JSR RESET_RESTART_FLAG
+ JSR UPDATE_NEW_MAP
+ ENDI
 * ======================= UP MOVEMENT ==================================== *
 	IF.B UP_MOVEMENT_DETECTED <EQ> #1 THEN.L
 	
@@ -738,9 +742,11 @@ UPDATE_NEXT_LEVEL
 	RTS
 	
 UPDATE_NEW_MAP
-
-	; TODO SAMU : CALL FUNCTION FOR CLEANING THE MAP
-	
+    
+    MOVE.L #11,D0 *BORRA LA PANTALLA
+    MOVE.W #$FF00,D1
+    TRAP #15
+		
 	IF.L LEVEL <EQ> #0 THEN.L
 		JSR UPLOAD_MAP
 	ENDI
@@ -831,6 +837,7 @@ RESET_BOX_MOVE_RIGHT_FLAG
 	INCLUDE "./GameController/Maps/TestingMap.x68"
 	INCLUDE "./GameController/CheckPointsManager.x68"
 	INCLUDE "./GameController/MapManager.x68"
+
 
 
 

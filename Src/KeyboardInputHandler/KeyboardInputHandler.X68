@@ -70,7 +70,7 @@ READ_KEYBOARD
 	MOVE.L #'Z'<<24, D1		                ; Check for keys Z
 	TRAP #15
 	
-    BTST.L #0, D1	; Check if Z has been pressed
+    BTST.L #24, D1	; Check if Z has been pressed
 	IF <NE> THEN
 		JSR SET_RESTART_FLAG
 	ENDI
@@ -123,6 +123,7 @@ INIT_KEYBOARD_INPUT_HANDLER
 	JSR RESET_RIGHT_MOVEMENT_FLAG
 	JSR RESET_RESTART_FLAG
 	RTS
+
 
 
 
